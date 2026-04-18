@@ -2,39 +2,17 @@
 title: 자주 쓰는 단축키
 weight: 6
 sources:
+  - title: "Claude Code 공식 문서 - Interactive Mode"
+    url: "https://code.claude.com/docs/en/interactive-mode"
   - title: "Claude Code 공식 문서 - Keybindings"
     url: "https://code.claude.com/docs/en/keybindings"
   - title: "Claude Code 공식 문서 - Terminal Config"
     url: "https://code.claude.com/docs/en/terminal-config"
-  - title: "Claude Code 공식 문서 - Common Workflows"
-    url: "https://code.claude.com/docs/en/common-workflows"
 ---
 
-Claude Code 대화 중에 쓸 수 있는 단축키를 정리했습니다. 마우스 없이 키보드만으로 대부분의 조작이 가능합니다.
+Claude Code 대화 중에 쓸 수 있는 단축키를 정리했습니다. `?`를 누르면 현재 환경에서 사용 가능한 단축키를 확인할 수 있습니다.
 
-## 필수 단축키
-
-매일 쓰게 되는 핵심 단축키입니다.
-
-| 단축키 | 동작 | 설명 |
-|--------|------|------|
-| `Enter` | 메시지 전송 | |
-| `Ctrl + C` | 현재 작업 중단 | Claude가 작업 중일 때 멈춤 |
-| `Ctrl + D` | Claude Code 종료 | |
-| `Shift + Tab` | 권한 모드 전환 | default → acceptEdits → plan → ... |
-| `Ctrl + J` | 줄바꿈 | 메시지 안에서 엔터 없이 다음 줄로 |
-| `Escape` | 입력 취소 | 작성 중인 메시지 지우기 |
-
----
-
-## 사고 모드 (Thinking) 제어
-
-| 단축키 | 동작 |
-|--------|------|
-| `Option + T` (macOS) / `Alt + T` | 사고 모드 켜기/끄기 (현재 세션) |
-| `Ctrl + O` | verbose 모드 — 사고 과정 보기 |
-
-> macOS에서 `Option` 키가 동작하지 않으면 터미널 설정에서 "Use Option as Meta Key"를 켜야 합니다.
+> macOS에서 `Option`/`Alt` 키 단축키를 사용하려면 터미널에서 Option을 Meta 키로 설정해야 합니다.
 
 | 터미널 | 설정 경로 |
 |--------|-----------|
@@ -42,9 +20,21 @@ Claude Code 대화 중에 쓸 수 있는 단축키를 정리했습니다. 마우
 | iTerm2 | Settings → Profiles → Keys → Left/Right Option key → "Esc+" |
 | VS Code | `terminal.integrated.macOptionIsMeta: true` |
 
-단축키 없이 영구 설정하려면: `/config` → Think Mode → false
+---
 
-사고 깊이 조절, UltraThink, effort level 등 심화 내용은 [Claude Code 더 잘 사용하기]({{< relref "/docs/tips/better-usage#사고-깊이-조절하기" >}})를 참고하세요.
+## 일반 제어
+
+| 단축키 | 동작 |
+|--------|------|
+| `Enter` | 메시지 전송 |
+| `Ctrl + C` | 현재 작업 중단 |
+| `Ctrl + D` | Claude Code 종료 |
+| `Escape` | 입력 취소 |
+| `Esc + Esc` | 되감기(rewind) — 대화/코드를 이전 시점으로 복원 |
+| `Ctrl + L` | 입력창 비우기 + 화면 다시 그리기 |
+| `Ctrl + O` | transcript 뷰어 토글 (상세 도구 사용 로그) |
+| `Ctrl + R` | 히스토리 역방향 검색 |
+| `↑` / `↓` | 이전/다음 히스토리 (멀티라인에서는 커서 이동 우선) |
 
 ---
 
@@ -53,32 +43,65 @@ Claude Code 대화 중에 쓸 수 있는 단축키를 정리했습니다. 마우
 | 단축키 | 동작 |
 |--------|------|
 | `Shift + Tab` | 권한 모드 순환 (default → acceptEdits → plan → ...) |
-| `Cmd + P` / `Meta + P` | 모델 선택 |
-| `Meta + O` | Fast 모드 토글 |
+| `Option + P` / `Alt + P` | 모델 전환 |
+| `Option + T` / `Alt + T` | 사고 모드 (Extended Thinking) 토글 |
+| `Option + O` / `Alt + O` | Fast 모드 토글 |
+
+사고 깊이 조절, UltraThink 등 심화 내용은 [Claude Code 더 잘 사용하기]({{< relref "/docs/tips/better-usage#사고-깊이-조절하기" >}})를 참고하세요.
 
 ---
 
-## 편집 및 입력
+## 텍스트 편집
 
 | 단축키 | 동작 |
 |--------|------|
-| `Ctrl + J` | 줄바꿈 삽입 |
-| `Ctrl + L` | 입력창 비우기 + 화면 다시 그리기 |
+| `Ctrl + A` | 줄 시작으로 이동 |
+| `Ctrl + E` | 줄 끝으로 이동 |
+| `Ctrl + K` | 커서부터 줄 끝까지 삭제 |
+| `Ctrl + U` | 커서부터 줄 시작까지 삭제 |
+| `Ctrl + W` | 이전 단어 삭제 |
+| `Ctrl + Y` | 삭제한 텍스트 붙여넣기 |
+| `Alt + Y` | 붙여넣기 히스토리 순환 (`Ctrl+Y` 직후) |
+| `Alt + B` | 한 단어 뒤로 이동 |
+| `Alt + F` | 한 단어 앞으로 이동 |
+
+> `Ctrl+K/U/W`로 삭제한 텍스트는 `Ctrl+Y`로 복원할 수 있습니다 (kill ring).
+
+---
+
+## 줄바꿈 입력
+
+메시지 안에서 줄을 바꾸는 방법입니다.
+
+| 방법 | 단축키 | 비고 |
+|------|--------|------|
+| 모든 터미널 | `\` + `Enter` | 가장 확실한 방법 |
+| 모든 터미널 | `Ctrl + J` | line feed 문자 |
+| macOS | `Option + Enter` | Option as Meta 설정 필요 |
+| iTerm2, WezTerm, Ghostty, Kitty | `Shift + Enter` | 설정 없이 바로 동작 |
+| VS Code, Alacritty, Zed, Warp | `Shift + Enter` | `/terminal-setup` 실행 후 사용 가능 |
+
+---
+
+## 빠른 명령어
+
+| 접두사 | 동작 | 예시 |
+|--------|------|------|
+| `/` | 슬래시 명령어/스킬 실행 | `/compact`, `/model opus` |
+| `!` | Bash 명령어 직접 실행 | `! npm test`, `! git status` |
+| `@` | 파일 경로 자동완성 | `@src/auth.js 설명해줘` |
+
+`!`로 실행한 명령어의 출력은 대화 컨텍스트에 포함됩니다. Claude의 해석이나 승인 없이 바로 실행됩니다.
+
+---
+
+## 이미지 및 파일
+
+| 단축키 | 동작 |
+|--------|------|
+| `Ctrl + V` | 클립보드 이미지 붙여넣기 (Windows: `Alt + V`) |
 | `Ctrl + G` | 외부 에디터로 열기 (plan 파일 편집 시 유용) |
-| `Ctrl + V` | 이미지 붙여넣기 (Windows: `Alt + V`) |
 | `Ctrl + S` | 현재 프롬프트 임시 저장 (stash) |
-| `Ctrl + _` | 실행 취소 (undo) |
-
----
-
-## 세션 관리
-
-| 단축키 | 동작 |
-|--------|------|
-| `Ctrl + R` | 히스토리 검색 |
-| `↑` / `↓` | 이전/다음 히스토리 |
-| `Ctrl + O` | verbose 모드 토글 (상세 로그 표시) |
-| `Ctrl + T` | 작업 목록(Task) 토글 |
 
 ---
 
@@ -86,8 +109,9 @@ Claude Code 대화 중에 쓸 수 있는 단축키를 정리했습니다. 마우
 
 | 단축키 | 동작 |
 |--------|------|
-| `Ctrl + B` | 현재 작업을 백그라운드로 보내기 |
-| `Ctrl + X → Ctrl + K` | 모든 백그라운드 에이전트 종료 |
+| `Ctrl + B` | 실행 중인 작업을 백그라운드로 보내기 (tmux에서는 2번) |
+| `Ctrl + X → Ctrl + K` | 모든 백그라운드 에이전트 종료 (3초 내 2번 눌러 확인) |
+| `Ctrl + T` | 작업 목록(Task) 토글 |
 
 ---
 
@@ -101,6 +125,28 @@ Claude Code 대화 중에 쓸 수 있는 단축키를 정리했습니다. 마우
 | `N` 또는 `Escape` | 거부 |
 | `Shift + Tab` | 권한 모드 전환 |
 | `Ctrl + E` | 권한 설명 토글 |
+| `←` / `→` | 탭 간 이동 |
+
+---
+
+## Transcript 뷰어
+
+`Ctrl + O`로 transcript 뷰어를 연 상태에서 사용할 수 있습니다.
+
+| 단축키 | 동작 |
+|--------|------|
+| `Ctrl + E` | 전체 내용 표시 토글 |
+| `q` / `Ctrl + C` / `Esc` | 뷰어 닫기 |
+
+---
+
+## 음성 입력
+
+음성 입력(`/voice`로 활성화)이 켜진 상태에서:
+
+| 단축키 | 동작 |
+|--------|------|
+| `Space` 길게 누르기 | 푸시투톡 — 누르는 동안 음성 인식 |
 
 ---
 
