@@ -21,17 +21,36 @@ defaultContentLanguage = "ko"
 
 [[menus.main]]
   name = "블로그"
-  pageRef = "/blog"
+  url = "https://shchoice.github.io/"
   weight = 2
+  [menus.main.params]
+    external = true
+
+[[menus.main]]
+  name = "테마 전환"
+  weight = 10
+  [menus.main.params]
+    type = "theme-toggle"
 
 [module]
   [[module.imports]]
     path = "github.com/imfing/hextra"
 
+dateFormat = "2006-01-02"
+
+[frontmatter]
+  date = ["date", ":git", ":fileModTime", ":default"]
+  lastmod = [":git", "lastmod", "date", ":fileModTime", ":default"]
+
 [params]
   [params.navbar]
     displayTitle = true
     displayLogo = true
+    [params.navbar.logo]
+      path = "images/logo.svg"
+      dark = "images/logo.svg"
+      width = "24"
+      height = "24"
   [params.footer]
     enable = true
   [params.editURL]

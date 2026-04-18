@@ -1,0 +1,18 @@
+{{- $page := . -}}
+{{- $dateFormat := site.Params.dateFormat | default "2006-01-02" -}}
+{{- $createdStr := $page.Date | time.Format "2006-01-02" -}}
+{{- $modifiedStr := $page.Lastmod | time.Format "2006-01-02" -}}
+<style>
+  .page-dates { color:#6b7280; }
+  :root.dark .page-dates { color:#9ca3af; }
+</style>
+<div class="page-dates" style="margin-top:0.5rem;margin-bottom:1.5rem;font-size:0.8rem;text-align:right;">
+  {{- with $page.Date -}}
+    <div>작성일: <time datetime="{{ (time.Format "2006-01-02T15:04:05Z07:00" .) }}">{{ . | time.Format $dateFormat }}</time></div>
+  {{- end -}}
+  {{- if ne $createdStr $modifiedStr -}}
+    {{- with $page.Lastmod -}}
+      <div>수정일: <time datetime="{{ (time.Format "2006-01-02T15:04:05Z07:00" .) }}">{{ . | time.Format $dateFormat }}</time></div>
+    {{- end -}}
+  {{- end -}}
+</div>
