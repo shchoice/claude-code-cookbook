@@ -14,6 +14,9 @@ ignoreLogs = ['warning-goldmark-raw-html']
 
 defaultContentLanguage = "ko"
 
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
 [[menus.main]]
   name = "문서"
   pageRef = "/docs"
@@ -25,6 +28,12 @@ defaultContentLanguage = "ko"
   weight = 2
   [menus.main.params]
     external = true
+
+[[menus.main]]
+  name = "검색"
+  weight = 5
+  [menus.main.params]
+    type = "search"
 
 [[menus.main]]
   name = "테마 전환"
