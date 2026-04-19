@@ -210,6 +210,119 @@ Claude에게 자율권을 최대한 주고, 치명적 실수만 막는 설정입
 
 ---
 
+## settings.json이 관리하는 마크다운 파일들
+
+`settings.json`의 일부 설정은 **별도의 마크다운 파일**과 연결됩니다. 설정 파일은 "어디를 보라"만 지정하고, 실제 내용은 `.md` 파일에 작성합니다.
+
+### plansDirectory — 플랜 파일
+
+plan 모드에서 Claude가 작성하는 계획서가 저장되는 위치입니다.
+
+```json
+{
+  "plansDirectory": ".claude/plans"
+}
+```
+
+| 설정값 | 저장 위치 | 특징 |
+|--------|----------|------|
+| 미설정 (기본) | `~/.claude/plans/` | 개인 디렉토리. 프로젝트 간 공유 안 됨 |
+| `".claude/plans"` | 프로젝트 `.claude/plans/` | git 커밋 가능. 팀과 공유 가능 |
+| `"./plans"` | 프로젝트 루트 `plans/` | 문서처럼 관리할 때 |
+
+플랜 파일은 Claude가 자동 생성하며, 파일명도 자동으로 붙습니다. 디렉토리 구조 예시:
+
+```
+.claude/plans/
+├── 2026-04-15-oauth-migration.md
+├── 2026-04-18-api-refactor.md
+└── 2026-04-20-test-coverage.md
+```
+
+각 파일에는 Claude가 분석한 현재 상태, 변경 계획, 파일 목록 등이 담깁니다. `Ctrl + G`로 에디터에서 직접 수정할 수 있고, 플랜을 승인하면 Claude가 이 계획에 따라 구현합니다.
+
+> 프로젝트에 `.claude/plans`를 사용하면 "왜 이렇게 구현했는지" 기록이 남아 나중에 참고할 수 있습니다.
+
+### outputStyle — 커스텀 출력 스타일
+
+커스텀 출력 스타일은 마크다운 파일로 작성하고, `settings.json`에서 이름으로 참조합니다.
+
+```json
+{
+  "outputStyle": "Korean Dev"
+}
+```
+
+| 저장 위치 | 적용 범위 |
+|----------|---------|
+| `~/.claude/output-styles/` | 모든 프로젝트 |
+| `.claude/output-styles/` | 현재 프로젝트만 |
+
+디렉토리 구조 예시:
+
+```
+~/.claude/output-styles/
+├── korean-dev.md
+└── code-reviewer.md
+
+.claude/output-styles/
+└── team-style.md
+```
+
+각 파일은 **frontmatter + 지침**으로 구성됩니다:
+
+```markdown
+---
+name: Korean Dev
+description: 한국어로 응답하고 코드 설명을 덧붙이는 스타일
+keep-coding-instructions: true
+---
+
+# 응답 지침
+
+- 모든 응답과 커밋 메시지를 한국어로 작성합니다
+- 코드 변경 시 변경 이유를 한 줄로 설명합니다
+```
+
+| frontmatter | 설명 |
+|-------------|------|
+| `name` | `/config`에 표시되는 이름. `outputStyle` 값과 매칭 |
+| `description` | 스타일 선택 시 보이는 설명 |
+| `keep-coding-instructions` | `true`면 기본 코딩 지침 유지, `false`면 코딩 지침 제거 |
+
+> 기본 제공 스타일(`Default`, `Explanatory`, `Learning`)은 파일이 없어도 이름만으로 사용할 수 있습니다. 커스텀 스타일만 `.md` 파일이 필요합니다.
+
+### 전체 디렉토리 구조 한눈에 보기
+
+`settings.json`과 연결되는 마크다운 파일들을 합치면 이런 구조가 됩니다:
+
+```
+~/.claude/
+├── settings.json              ← 사용자 전역 설정
+├── CLAUDE.md                  ← 전역 프로젝트 지침
+├── output-styles/
+│   └── korean-dev.md          ← 커스텀 출력 스타일
+└── plans/                     ← 기본 플랜 저장 위치
+
+프로젝트/
+├── CLAUDE.md                  ← 프로젝트 지침
+├── .claude/
+│   ├── settings.json          ← 프로젝트 설정 (팀)
+│   ├── settings.local.json    ← 로컬 설정 (나만)
+│   ├── output-styles/
+│   │   └── team-style.md      ← 프로젝트 출력 스타일
+│   ├── plans/
+│   │   └── 2026-04-20-*.md    ← 플랜 파일들
+│   ├── rules/                 ← 경로별 규칙
+│   │   └── api-conventions.md
+│   ├── skills/                ← 스킬
+│   │   └── fix-issue/SKILL.md
+│   └── agents/                ← 서브에이전트
+│       └── security-reviewer.md
+```
+
+---
+
 ## 설정 우선순위 정리
 
 같은 키가 여러 파일에 있을 때 적용 순서입니다.
