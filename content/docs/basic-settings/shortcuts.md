@@ -10,7 +10,9 @@ sources:
     url: "https://code.claude.com/docs/en/terminal-config"
 ---
 
-Claude Code 대화 중에 쓸 수 있는 단축키를 정리했습니다. `?`를 누르면 현재 환경에서 사용 가능한 단축키를 확인할 수 있습니다.
+Claude Code 대화 중에 쓸 수 있는 키보드 단축키와 자주 쓰는 슬래시 명령어를 정리합니다. 작업 중단(`Ctrl+C`), 모드 전환(`Shift+Tab`), 사고 모드 토글(`Option+T`), 줄바꿈(`Ctrl+J`) 등 핵심 조작부터, 상황별로 어떤 명령어를 써야 하는지까지 한눈에 볼 수 있습니다.
+
+`?`를 누르면 현재 환경에서 사용 가능한 단축키를 확인할 수 있습니다.
 
 > macOS에서 `Option`/`Alt` 키 단축키를 사용하려면 터미널에서 Option을 Meta 키로 설정해야 합니다.
 

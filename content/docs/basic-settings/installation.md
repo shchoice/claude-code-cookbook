@@ -3,6 +3,10 @@ title: 설치 및 초기 설정
 weight: 1
 ---
 
+Claude Code를 설치하고 첫 세션을 시작하기까지의 과정을 정리합니다. Node.js 18 이상이 필요하며, npm으로 설치한 뒤 `claude` 명령어로 바로 사용할 수 있습니다.
+
+---
+
 ## Claude Code 설치
 
 Claude Code는 npm을 통해 설치합니다.

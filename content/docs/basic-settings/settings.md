@@ -6,7 +6,7 @@ sources:
     url: "https://code.claude.com/docs/en/settings"
 ---
 
-Claude Code의 동작은 `settings.json` 파일로 제어합니다. 스마트폰의 "설정 앱"과 비슷한 역할입니다.
+Claude Code의 동작은 `settings.json` 파일로 제어합니다. 사용자 전역, 프로젝트 공유, 로컬 전용 3가지 범위가 있으며, 모델, 권한, 환경변수, 언어 등을 설정할 수 있습니다. 스마트폰의 "설정 앱"과 비슷한 역할입니다.
 
 ## 설정 파일 위치
 

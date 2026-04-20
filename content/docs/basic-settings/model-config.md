@@ -6,7 +6,7 @@ sources:
     url: "https://code.claude.com/docs/en/model-config"
 ---
 
-Claude Code에서 사용할 모델을 선택하고 사고 깊이를 조절하는 방법을 정리합니다.
+Claude Code에서 사용할 모델을 선택하고 사고 깊이를 조절하는 방법을 정리합니다. Sonnet(일상 코딩), Opus(복잡한 추론), Haiku(단순 작업), opusplan(계획은 Opus + 실행은 Sonnet) 등 별칭으로 모델을 지정할 수 있고, effort level로 사고 깊이를 5단계로 조절할 수 있습니다.
 
 ---
 

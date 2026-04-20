@@ -200,3 +200,15 @@ Claude가 현재 구현을 분석하고 마이그레이션 계획을 작성합�
 **파일:**
 
 `.gitconfig`, `.gitmodules`, `.bashrc`, `.bash_profile`, `.zshrc`, `.zprofile`, `.profile`, `.ripgreprc`, `.mcp.json`, `.claude.json`
+
+---
+
+## 어떤 모드로 시작할까
+
+- **처음 사용한다면**: `default`로 시작해서 Claude의 동작을 관찰
+- **코딩에 익숙해지면**: `acceptEdits`로 전환해서 파일 수정 자동 허용
+- **큰 기능을 구현할 때**: `plan` 모드로 계획을 세운 뒤 실행
+- **방향이 명확한 긴 작업**: `auto` 모드로 자율 실행
+- **CI/CD 파이프라인**: `dontAsk` 모드로 사전 허용된 도구만 실행
+
+`Shift + Tab`으로 언제든 모드를 전환할 수 있으니, 상황에 맞게 유연하게 바꿔가며 사용하세요.

@@ -6,7 +6,7 @@ sources:
     url: "https://code.claude.com/docs/ko/output-styles"
 ---
 
-출력 스타일은 Claude Code의 **응답 방식**을 바꿉니다. 코딩 도구가 아닌 학습 도우미, 기술 문서 작성자, 또는 완전히 다른 용도의 에이전트로 만들 수 있습니다.
+출력 스타일은 Claude Code의 **응답 방식**(형식, 톤, 구조)을 바꿉니다. 기본 제공 스타일 3가지(Default, Explanatory, Learning)가 있고, 마크다운 파일로 커스텀 스타일도 만들 수 있습니다. `/config`에서 선택하면 해당 세션부터 적용됩니다.
 
 ---
 
@@ -131,3 +131,11 @@ keep-coding-instructions: true
 | **Agents** | 별도 컨텍스트에서 특정 작업 처리. 모델/도구 지정 가능 | 위임 시 |
 
 > 일관된 응답 스타일 → **출력 스타일**, 재사용 가능한 워크플로우 → **Skills**
+
+---
+
+## 처음 설정한다면
+
+1. `/config` → Output style에서 **Explanatory**를 먼저 써보세요. 코드 변경 이유를 함께 설명해줘서 학습 효과가 있습니다.
+2. 익숙해지면 **Default**로 돌아오거나, 팀 컨벤션에 맞는 커스텀 스타일을 만들어보세요.
+3. 커스텀 스타일 파일은 `~/.claude/output-styles/`(개인)이나 `.claude/output-styles/`(프로젝트)에 저장합니다.
