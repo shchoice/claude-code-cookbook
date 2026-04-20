@@ -292,33 +292,83 @@ keep-coding-instructions: true
 
 > 기본 제공 스타일(`Default`, `Explanatory`, `Learning`)은 파일이 없어도 이름만으로 사용할 수 있습니다. 커스텀 스타일만 `.md` 파일이 필요합니다.
 
-### 전체 디렉토리 구조 한눈에 보기
+### .claude/ 디렉토리 구조 이해하기
 
-`settings.json`과 연결되는 마크다운 파일들을 합치면 이런 구조가 됩니다:
+`.claude/` 아래 디렉토리는 각각 **다른 목적**을 가집니다. 겉보기엔 비슷한 마크다운 파일이지만, 어디에 놓느냐에 따라 **로드 시점과 역할이 완전히 다릅니다.**
 
 ```
-~/.claude/
-├── settings.json              ← 사용자 전역 설정
-├── CLAUDE.md                  ← 전역 프로젝트 지침
+.claude/
+├── settings.json        ← 설정값 (JSON)
+├── settings.local.json  ← 개인 설정값 (JSON)
+├── CLAUDE.md            ← 프로젝트 지침
+│
+├── rules/               ← "이렇게 해라" 규칙
+├── output-styles/       ← "이런 방식으로 말해라" 응답 스타일
+├── skills/              ← "이 절차대로 수행해라" 작업 템플릿
+├── agents/              ← 서브에이전트 정의
+├── plans/               ← plan 모드 결과물
+└── worktrees/           ← git worktree 격리 공간
+```
+
+#### 핵심 구분: rules vs skills vs output-styles
+
+이 세 디렉토리가 가장 헷갈립니다. 비유로 정리하면:
+
+| 디렉토리 | 비유 | 역할 | 로드 시점 |
+|---------|------|------|---------|
+| `rules/` | 회사 코딩 가이드북 | "변수명은 camelCase로" 같은 **규칙** | 세션 시작 시 자동 (경로별은 파일 매칭 시) |
+| `skills/` | 업무 매뉴얼 | "1단계: 테스트 → 2단계: 빌드 → 3단계: 배포" 같은 **절차** | `/skill-name`으로 호출하거나 Claude가 자동 판단 |
+| `output-styles/` | 말투 설정 | "한국어로 친절하게 설명하듯이" 같은 **응답 방식** | `/config`에서 선택하면 항상 |
+
+**같은 주제라도 디렉토리에 따라 용도가 다릅니다:**
+
+| 주제 | rules/에 넣으면 | skills/에 넣으면 |
+|------|---------------|----------------|
+| 테스트 | "mock 대신 실제 DB를 써라" (규칙) | "테스트 실행 → 실패 분석 → 수정 → 재실행" (절차) |
+| 보안 | "사용자 입력은 반드시 sanitize" (규칙) | "변경사항의 보안 취약점을 분석하고 리포트 작성" (절차) |
+| 코드 스타일 | "2 스페이스 들여쓰기" (규칙) | 해당 없음 (스타일 규칙은 rules/에) |
+
+#### 컨텍스트 비용 차이
+
+| 디렉토리 | 컨텍스트 차지 | 비고 |
+|---------|------------|------|
+| `rules/` (기본) | **항상** 차지 | 매 세션 로드 |
+| `rules/` (경로별) | **조건부** | 해당 파일 작업 시만 |
+| `skills/` | **호출 시만** | 평소엔 설명 한 줄만 로드 |
+| `output-styles/` | **항상** 차지 | 선택된 스타일만 |
+
+> rules/에 모든 걸 넣으면 매 세션 컨텍스트를 차지합니다. 자주 안 쓰는 워크플로우는 skills/로 분리하세요.
+
+#### 전체 구조 예시
+
+```
+~/.claude/                              ← 사용자 전역
+├── settings.json
+├── CLAUDE.md
+├── rules/
+│   └── preferences.md                  ← 내 코딩 선호도 (항상 로드)
 ├── output-styles/
-│   └── korean-dev.md          ← 커스텀 출력 스타일
-└── plans/                     ← 기본 플랜 저장 위치
+│   └── korean-dev.md                   ← 커스텀 출력 스타일
+└── plans/                              ← 기본 플랜 저장 위치
 
 프로젝트/
-├── CLAUDE.md                  ← 프로젝트 지침
+├── CLAUDE.md                           ← 프로젝트 지침 (항상 로드)
 ├── .claude/
-│   ├── settings.json          ← 프로젝트 설정 (팀)
-│   ├── settings.local.json    ← 로컬 설정 (나만)
+│   ├── settings.json                   ← 프로젝트 설정 (팀)
+│   ├── settings.local.json             ← 로컬 설정 (나만)
+│   ├── rules/
+│   │   ├── code-style.md               ← 항상 로드되는 규칙
+│   │   ├── testing.md                  ← 항상 로드되는 규칙
+│   │   └── api-conventions.md          ← paths: "src/api/**" → 조건부 로드
 │   ├── output-styles/
-│   │   └── team-style.md      ← 프로젝트 출력 스타일
-│   ├── plans/
-│   │   └── 2026-04-20-*.md    ← 플랜 파일들
-│   ├── rules/                 ← 경로별 규칙
-│   │   └── api-conventions.md
-│   ├── skills/                ← 스킬
-│   │   └── fix-issue/SKILL.md
-│   └── agents/                ← 서브에이전트
-│       └── security-reviewer.md
+│   │   └── team-style.md               ← 프로젝트 출력 스타일
+│   ├── skills/
+│   │   ├── fix-issue/SKILL.md          ← /fix-issue로 호출
+│   │   └── deploy/SKILL.md             ← /deploy로 호출
+│   ├── agents/
+│   │   └── security-reviewer.md        ← 서브에이전트
+│   └── plans/
+│       └── 2026-04-20-auth-migration.md ← plan 모드 결과물
 ```
 
 ---
